@@ -1,0 +1,49 @@
+html, body, .restaurants
+	padding 0
+	margin 0
+	height 100%
+
+.restaurants
+	display flex
+
+.restaurant
+	overflow-y auto
+	width 100%
+
+	&:not(first-child)
+		border-left solid 1px #eee
+
+	&-name
+		font-size 1.25em
+		margin 0
+		padding 2em .8em 1.5em
+
+.tmi-group-name
+	font-weight bold
+	padding 5px $base-font-size
+	font-size 10px
+
+.tmi
+	position relative
+
+	padding 0 $base-font-size
+	padding-bottom .5em
+	border-bottom solid 1px #eee
+	margin-bottom .5em
+
+	&-daily
+		color #555
+
+	&.bold
+		color #000
+		font-weight bold
+
+	&-text-group
+		margin-right 80px
+
+	&-price
+		position absolute
+		opacity .5
+		top .4em
+		right 1em
+		font-size 12px
