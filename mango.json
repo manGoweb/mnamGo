@@ -1,34 +1,13 @@
 {
+  "snippet": "yes",
   "src_folder": "src",
-  "dist_folder": "dist",
+  "dist_folder": "assets",
   "styles": [
-    "src/styles/index.styl",
-    "src/styles/oldie.styl",
-    "src/styles/print.styl"
-  ],
-  "scripts": [
-    "src/scripts/index.es6"
-  ],
-  "images": [
-    "src/images/**/*.{jpg,png,svg}"
-  ],
-  "static": [
-    "src/fonts/**",
-    "node_modules/lt-ie-9/lt-ie-9.min.js"
-  ],
-  "templates": [
-    "src/templates/*.jade"
+    "src/styles/index.styl"
   ],
   "dependencies": [
     "lt-ie-9",
     "stylus-normalize",
     "jquery"
-  ],
-  "data": {
-    "global": "src/data/global.json"
-  },
-  "hooks": {
-    "init": "mango install"
-  },
-  "version": ">=0.17"
+  ]
 }
