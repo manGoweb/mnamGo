@@ -6,6 +6,16 @@
 <link rel="stylesheet" href="assets/styles/index.css">
 </head>
 <body>
+<?php
+$today = new DateTime();
+$id = $today->format('Y-m-d');
+$filename = __DIR__ . '/' . $id . '.tmp';
+
+if(file_exists($filename) && !isset($_GET['force'])) {
+	include $filename;
+} else {
+	ob_start();
+?>
 <main class="restaurants">
 <?php
 $urls = [
@@ -45,5 +55,11 @@ foreach($urls as $name => $url) {
 		</div>
 	</div>
 </main>
+<?php
+$content = ob_get_contents();
+file_put_contents($filename, $content);
+ob_end_flush();
+}
+?>
 </body>
 </html>

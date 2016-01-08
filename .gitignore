@@ -11,3 +11,4 @@ npm-debug.log
 /.mango-snippet.html
 /assets
 mango.local.json
+/*.tmp
