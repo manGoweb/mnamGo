@@ -23,7 +23,6 @@ $urls = [
 	'Bistro OS' => 'https://www.zomato.com/cs/praha/bistroos-nov%C3%A9-m%C4%9Bsto-praha-1/menu',
 	'U Medvídků' => 'https://www.zomato.com/cs/praha/restaurace-u-medv%C3%ADdk%C5%AF-star%C3%A9-m%C4%9Bsto-praha-1/menu',
 	'Modrá zahrada' => 'https://www.zomato.com/cs/praha/modr%C3%A1-zahrada-star%C3%A9-m%C4%9Bsto-praha-1/menu',
-	'Chilli Point' => 'https://www.zomato.com/cs/praha/chilli-point-star%C3%A9-m%C4%9Bsto-praha-1/menu',
 	'Restaurant Ostrovní' => 'https://www.zomato.com/cs/praha/restaurace-ostrovn%C3%AD-nov%C3%A9-m%C4%9Bsto-praha-1/menu',
 ];
 
