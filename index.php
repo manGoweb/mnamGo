@@ -63,7 +63,7 @@ ob_end_flush();
 ?>
 <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
 <script>
-$('.restaurant-name').on('touchstart mousedown', function(e){
+$('.restaurant-name').on('click', function(e){
 	$(this).closest('.restaurant').toggleClass('is-open');
 });
 </script>
