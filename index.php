@@ -1,3 +1,4 @@
+<?php header('Content-Type:text/html;charset=utf-8'); ?>
 <!DOCTYPE html>
 <html lang="cs">
 <head>
@@ -39,7 +40,7 @@ foreach($urls as $name => $url) {
 
 	if($nodes->length) {
 		$node = $nodes->item(0);
-		$menuContent = $node->ownerDocument->saveHTML($node);
+		$menuContent = utf8_decode($node->ownerDocument->saveHTML($node));
 	} else {
 		$menuContent = '<div class="empty-menu"><a href="?force" class="refresh-btn">Zkusit načíst znovu</a></div>';
 	}
