@@ -16,6 +16,7 @@ if(file_exists($filename) && !isset($_GET['force'])) {
 } else {
 	ob_start();
 ?>
+<div class="mnamgo">
 <main class="restaurants">
 <?php
 $urls = [
@@ -26,39 +27,43 @@ $urls = [
 	'Restaurant Ostrovní' => 'https://www.zomato.com/cs/praha/restaurace-ostrovn%C3%AD-nov%C3%A9-m%C4%9Bsto-praha-1/menu',
 ];
 
+$first = true;
 foreach($urls as $name => $url) {
-	$options = array(
-		"ssl"=>array(
-			"verify_peer"=>false,
-			"verify_peer_name"=>false,
-			),
-		'http' => array(
-			'method' => "GET",
-			'header' => "User-Agent: PHP\r\n"
-			)
-		);
 
-	$context = stream_context_create($options);
-	$content = file_get_contents($url, false, $context);
+	$dokument = new DOMDocument();
 
-	$start = strpos($content, '<div class="tmi-group ">');
-	$end = strpos($content, "\n                </div>", $start);
+	@$dokument->loadHTMLFile($url);
+	$xpath = new DOMXPath($dokument);
+	$nodes = $xpath->query('//div[contains(concat(" ", normalize-space(@class), " "), " tmi-group ")]');
+
+
+	if($nodes->length) {
+		$node = $nodes->item(0);
+		$menuContent = $node->ownerDocument->saveHTML($node);
+	} else {
+		$menuContent = '<div class="empty-menu"><a href="?force" class="refresh-btn">Zkusit načíst znovu</a></div>';
+	}
 ?>
-	<div class="restaurant">
+	<div class="restaurant<?php echo $first ? ' is-open' : '';?>">
 		<h2 class="restaurant-name"><?php echo $name ?></h2>
 		<div class="restaurant-menu">
-<?php
-	echo substr($content, $start, $end - $start) . '</div></div>';
-}
-?>
+<?php echo $menuContent; ?>
 		</div>
 	</div>
+<?php $first = false; } ?>
 </main>
+</div>
 <?php
 $content = ob_get_contents();
 file_put_contents($filename, $content);
 ob_end_flush();
 }
 ?>
+<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+<script>
+$('.restaurant-name').on('touchstart mousedown', function(e){
+	$(this).closest('.restaurant').toggleClass('is-open');
+});
+</script>
 </body>
 </html>

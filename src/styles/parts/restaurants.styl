@@ -1,22 +1,27 @@
-html, body, .restaurants
-	padding 0
-	margin 0
-	height 100%
+@import 'nib'
 
 .restaurants
-	display flex
+	flex 1 1 500px
+	padding .5em
+	clearfix()
 
 .restaurant
-	overflow-y auto
-	width 100%
+	display block
+	vertical-align top
 
-	&:not(first-child)
-		border-left solid 1px #eee
+	background #fff
+	border-radius 4px
+	box-shadow 0 0 10px rgba(#000, .2)
+	margin .5em .5em 1em
+
+	@media (min-width: 60em)
+		max-width 30em
+		display inline-block
 
 	&-name
 		font-size 1.25em
 		margin 0
-		padding 2em .8em 1.5em
+		padding 1.25em .8em
 
 .tmi-group-name
 	font-weight bold
@@ -47,3 +52,9 @@ html, body, .restaurants
 		top .4em
 		right 1em
 		font-size 12px
+
+@media (max-width: 60em)
+	.restaurant-menu
+		display none
+	.restaurant.is-open .restaurant-menu
+		display block
