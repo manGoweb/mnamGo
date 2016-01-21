@@ -30,10 +30,10 @@ $urls = [
 $first = true;
 foreach($urls as $name => $url) {
 
-	$dokument = new DOMDocument();
+	$document = new DOMDocument();
 
-	@$dokument->loadHTMLFile($url);
-	$xpath = new DOMXPath($dokument);
+	@$document->loadHTMLFile($url);
+	$xpath = new DOMXPath($document);
 	$nodes = $xpath->query('//div[contains(concat(" ", normalize-space(@class), " "), " tmi-group ")]');
 
 
