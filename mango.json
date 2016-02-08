@@ -5,6 +5,9 @@
   "styles": [
     "src/styles/index.styl"
   ],
+  "images": [
+    "src/images/*.{jpg,png,svg}"
+  ],
   "dependencies": [
     "lt-ie-9",
     "stylus-normalize",

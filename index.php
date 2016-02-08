@@ -4,7 +4,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Denní meníčka</title>
+<meta property="og:title" content="Denní meníčka okolo Jungmaňáku">
+<meta property="og:image" content="http://mnamgo.mangoweb.cz/assets/images/og.jpg">
+<title>Denní meníčka okolo Jungmaňáku</title>
 <link rel="stylesheet" href="assets/styles/index.css">
 </head>
 <body>
