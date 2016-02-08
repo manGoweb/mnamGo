@@ -27,6 +27,9 @@ $urls = [
 	'U Medvídků' => 'https://www.zomato.com/cs/praha/restaurace-u-medv%C3%ADdk%C5%AF-star%C3%A9-m%C4%9Bsto-praha-1/menu',
 	'Modrá zahrada' => 'https://www.zomato.com/cs/praha/modr%C3%A1-zahrada-star%C3%A9-m%C4%9Bsto-praha-1/menu',
 	'Restaurant Ostrovní' => 'https://www.zomato.com/cs/praha/restaurace-ostrovn%C3%AD-nov%C3%A9-m%C4%9Bsto-praha-1/menu',
+	'La Piccola Perla' => 'https://www.zomato.com/praha/la-piccola-perla-star%C3%A9-m%C4%9Bsto-praha-1/menu#daily',
+	'Café Louvre' => 'https://www.zomato.com/praha/caf%C3%A9-louvre-nov%C3%A9-m%C4%9Bsto-praha-1/menu#daily',
+	'Boorgies' => 'https://www.zomato.com/praha/boorgies-nov%C3%A9-m%C4%9Bsto-praha-1/menu#daily',
 ];
 
 $first = true;
