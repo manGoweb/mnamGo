@@ -1,0 +1,14 @@
+{
+    "name": "mangoweb/mnamgo",
+    "require": {
+        "nette/utils": "^2.3"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Viliam Kopecký",
+            "email": "vk@viliamkopecky.cz"
+        }
+    ],
+    "minimum-stability": "stable"
+}

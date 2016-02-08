@@ -1,10 +1,23 @@
 <?php
 header('Content-Type:text/html;charset=utf-8');
+require_once __DIR__ . '/vendor/autoload.php';
+
+use Nette\Utils\Strings;
 function normalize($content) {
+	$content = Strings::fixEncoding($content);
+	$content = Strings::normalize($content);
+
+	// normalize "s p a c e" separated words
+	$content = Strings::replace($content, '~(\p{L} ){3,}~u', function($m) {
+		return str_replace(' ', '', $m[0]);
+	});
+
 	// match all-caps words of 2 or more utf8 chars and lowercase them
-	return preg_replace_callback('~\b(\p{Lu}{2,})\b~', function($m) {
+	$content = Strings::replace($content, '~\b(\p{Lu}{2,})\b~u', function($m) {
 		return mb_strtolower($m[0]);
-	}, $content);
+	});
+
+	return $content;
 }
 ?>
 <!DOCTYPE html>
