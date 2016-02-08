@@ -13,6 +13,7 @@ function normalize($content) {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta property="og:title" content="Denní meníčka okolo Jungmaňáku">
+<meta property="og:description" content="Pojďte s náma, nebo bez nás. We don't care.">
 <meta property="og:image" content="http://mnamgo.mangoweb.cz/assets/images/og.jpg">
 <title>Denní meníčka okolo Jungmaňáku</title>
 <link rel="stylesheet" href="assets/styles/index.css">
