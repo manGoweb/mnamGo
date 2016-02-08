@@ -1,4 +1,12 @@
-<?php header('Content-Type:text/html;charset=utf-8'); ?>
+<?php
+header('Content-Type:text/html;charset=utf-8');
+function normalize($content) {
+	// match all-caps words of 2 or more utf8 chars and lowercase them
+	return preg_replace_callback('~\b(\p{Lu}{2,})\b~', function($m) {
+		return mb_strtolower($m[0]);
+	}, $content);
+}
+?>
 <!DOCTYPE html>
 <html lang="cs">
 <head>
@@ -63,7 +71,7 @@ foreach($urls as $name => $url) {
 <?php
 $content = ob_get_contents();
 file_put_contents($filename, $content);
-ob_end_flush();
+echo normalize(ob_get_clean());
 }
 ?>
 <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
