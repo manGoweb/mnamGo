@@ -54,7 +54,7 @@ $urls = [
 	'La Piccola Perla' => 'https://www.zomato.com/praha/la-piccola-perla-star%C3%A9-m%C4%9Bsto-praha-1/menu#daily',
 	'Café Louvre' => 'https://www.zomato.com/praha/caf%C3%A9-louvre-nov%C3%A9-m%C4%9Bsto-praha-1/menu#daily',
 	'Boorgies' => 'https://www.zomato.com/praha/boorgies-nov%C3%A9-m%C4%9Bsto-praha-1/menu#daily',
-	'Hlávkův Dvůr' => => 'https://www.zomato.com/praha/hl%C3%A1vk%C5%AFv-dv%C5%AFr-1-nov%C3%A9-m%C4%9Bsto-praha-1/menu#daily',
+	'Hlávkův Dvůr' => 'https://www.zomato.com/praha/hl%C3%A1vk%C5%AFv-dv%C5%AFr-1-nov%C3%A9-m%C4%9Bsto-praha-1/menu#daily',
 ];
 
 $first = true;
