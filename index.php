@@ -2,6 +2,8 @@
 header('Content-Type:text/html;charset=utf-8');
 require_once __DIR__ . '/vendor/autoload.php';
 
+Tracy\Debugger::enable(Tracy\Debugger::DEVELOPMENT);
+
 use Nette\Utils\Strings;
 function normalize($content) {
 	$content = Strings::fixEncoding($content);
