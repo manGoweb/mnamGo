@@ -2,7 +2,7 @@
 header('Content-Type:text/html;charset=utf-8');
 require_once __DIR__ . '/vendor/autoload.php';
 
-Tracy\Debugger::enable(Tracy\Debugger::DEVELOPMENT);
+Tracy\Debugger::enable(Tracy\Debugger::DETECT, __DIR__ . '/log');
 
 use Nette\Utils\Strings;
 function normalize($content) {
@@ -71,7 +71,7 @@ foreach($urls as $name => $url) {
 
 	if($nodes->length) {
 		$node = $nodes->item(0);
-		$menuContent = utf8_decode($node->ownerDocument->saveHTML($node));
+		$menuContent = $node->ownerDocument->saveHTML($node);
 	} else {
 		$menuContent = '<div class="empty-menu"><a href="?force" class="refresh-btn">Zkusit načíst znovu</a></div>';
 	}
