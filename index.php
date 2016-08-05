@@ -68,15 +68,16 @@ foreach($urls as $name => $url) {
 	$xpath = new DOMXPath($document);
 	$nodes = $xpath->query('//div[contains(concat(" ", normalize-space(@class), " "), " tmi-group ")]');
 
+	$node = $nodes->item(0);
+	$isEmpty = !$nodes->length || !$node->ownerDocument;
 
-	if($nodes->length) {
-		$node = $nodes->item(0);
+	if(!$isEmpty) {
 		$menuContent = $node->ownerDocument->saveHTML($node);
 	} else {
 		$menuContent = '<div class="empty-menu"><a href="?force" class="refresh-btn">Zkusit načíst znovu</a></div>';
 	}
 ?>
-	<div class="restaurant<?php echo $first ? ' is-open' : '';?>">
+	<div class="restaurant<?php echo $first ? ' is-open' : ''; echo $isEmpty ? ' is-empty' : '';?>">
 		<h2 class="restaurant-name"><?php echo $name ?></h2>
 		<div class="restaurant-menu">
 <?php echo $menuContent; ?>

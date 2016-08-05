@@ -1,7 +1,6 @@
 @import 'nib'
 
 .restaurants
-	flex 1 1 500px
 	padding .5em
 	clearfix()
 
@@ -14,7 +13,11 @@
 	box-shadow 0 0 10px rgba(#000, .2)
 	margin .5em .5em 1em
 
+	&.is-empty
+		opacity .2
+
 	@media (min-width: 60em)
+		width 100%
 		max-width 30em
 		display inline-block
 

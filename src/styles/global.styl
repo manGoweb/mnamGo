@@ -13,6 +13,7 @@ body
 	font-size $base-font-size
 	line-height $gratio
 	overflow-x hidden
+	background #eee
 
 a
 	color $c-main
@@ -24,11 +25,6 @@ h1, h2, h3, h4, h5, h6
 	margin $spacing*2 0 1em
 	text-rendering optimizeLegibility
 
-img
-	max-width 100%
-	height auto
-	vertical-align middle
-
 p
 	margin 0 0 $spacing
 
@@ -38,44 +34,3 @@ p
 ol, ul, li
 	margin 0
 	padding 0
-
-blockquote
-	margin $spacing 0
-	padding $padding 0 $padding $spacing
-	border-left 2px solid
-	color $text-color-light
-
-table
-	width 100%
-
-input,
-button,
-select,
-textarea
-	font-family inherit
-	font-size inherit
-	line-height inherit
-
-svg
-	pointer-events none
-
-b, i
-	font-style normal
-	font-weight normal
-
-
-// Helper classes
-
-.accessible
-	position: absolute !important
-	clip: rect(1px 1px 1px 1px) /* IE6, IE7 */
-	clip: rect(1px, 1px, 1px, 1px)
-	overflow hidden
-	size 1px 1px
-.fleft
-	float left
-.fright
-	float right
-.clear
-	clear both
-
