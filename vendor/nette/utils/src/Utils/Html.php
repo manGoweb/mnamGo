@@ -21,8 +21,10 @@ use Nette;
  * echo $el->startTag(), $el->endTag();
  * </code>
  */
-class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
+class Html implements \ArrayAccess, \Countable, \IteratorAggregate, IHtmlString
 {
+	use Nette\SmartObject;
+
 	/** @var string  element's name */
 	private $name;
 
@@ -30,20 +32,20 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 	private $isEmpty;
 
 	/** @var array  element's attributes */
-	public $attrs = array();
+	public $attrs = [];
 
 	/** @var array  of Html | string nodes */
-	protected $children = array();
+	protected $children = [];
 
 	/** @var bool  use XHTML syntax? */
 	public static $xhtml = FALSE;
 
 	/** @var array  empty (void) elements */
-	public static $emptyElements = array(
+	public static $emptyElements = [
 		'img' => 1, 'hr' => 1, 'br' => 1, 'input' => 1, 'meta' => 1, 'area' => 1, 'embed' => 1, 'keygen' => 1,
 		'source' => 1, 'base' => 1, 'col' => 1, 'link' => 1, 'param' => 1, 'basefont' => 1, 'frame' => 1,
 		'isindex' => 1, 'wbr' => 1, 'command' => 1, 'track' => 1,
-	);
+	];
 
 
 	/**
@@ -55,7 +57,7 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 	public static function el($name = NULL, $attrs = NULL)
 	{
 		$el = new static;
-		$parts = explode(' ', $name, 2);
+		$parts = explode(' ', (string) $name, 2);
 		$el->setName($parts[0]);
 
 		if (is_array($attrs)) {
@@ -127,6 +129,68 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 
 
 	/**
+	 * Appends value to element's attribute.
+	 * @param  string
+	 * @param  string|array value to append
+	 * @param  string|bool  value option
+	 * @return self
+	 */
+	public function appendAttribute($name, $value, $option = TRUE)
+	{
+		if (is_array($value)) {
+			$prev = isset($this->attrs[$name]) ? (array) $this->attrs[$name] : [];
+			$this->attrs[$name] = $value + $prev;
+
+		} elseif ((string) $value === '') {
+			$tmp = & $this->attrs[$name]; // appending empty value? -> ignore, but ensure it exists
+
+		} elseif (!isset($this->attrs[$name]) || is_array($this->attrs[$name])) { // needs array
+			$this->attrs[$name][$value] = $option;
+
+		} else {
+			$this->attrs[$name] = [$this->attrs[$name] => TRUE, $value => $option];
+		}
+		return $this;
+	}
+
+
+	/**
+	 * Sets element's attribute.
+	 * @param  string
+	 * @param  mixed
+	 * @return self
+	 */
+	public function setAttribute($name, $value)
+	{
+		$this->attrs[$name] = $value;
+		return $this;
+	}
+
+
+	/**
+	 * Returns element's attribute.
+	 * @param  string
+	 * @return mixed
+	 */
+	public function getAttribute($name)
+	{
+		return isset($this->attrs[$name]) ? $this->attrs[$name] : NULL;
+	}
+
+
+	/**
+	 * Unsets element's attribute.
+	 * @param  string
+	 * @return self
+	 */
+	public function removeAttribute($name)
+	{
+		unset($this->attrs[$name]);
+		return $this;
+	}
+
+
+	/**
 	 * Overloaded setter for element's attribute.
 	 * @param  string    HTML attribute name
 	 * @param  mixed     HTML attribute value
@@ -175,7 +239,7 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 	 * Overloaded setter for element's attribute.
 	 * @param  string  HTML attribute name
 	 * @param  array   (string) HTML attribute value or pair?
-	 * @return self
+	 * @return mixed
 	 */
 	public function __call($m, $args)
 	{
@@ -196,14 +260,8 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 		} elseif (count($args) === 1) { // set
 			$this->attrs[$m] = $args[0];
 
-		} elseif ((string) $args[0] === '') {
-			$tmp = & $this->attrs[$m]; // appending empty value? -> ignore, but ensure it exists
-
-		} elseif (!isset($this->attrs[$m]) || is_array($this->attrs[$m])) { // needs array
-			$this->attrs[$m][$args[0]] = $args[1];
-
-		} else {
-			$this->attrs[$m] = array($this->attrs[$m], $args[0] => $args[1]);
+		} else { // add
+			$this->appendAttribute($m, $args[0], $args[1]);
 		}
 
 		return $this;
@@ -219,7 +277,7 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 	public function href($path, $query = NULL)
 	{
 		if ($query) {
-			$query = http_build_query($query, NULL, '&');
+			$query = http_build_query($query, '', '&');
 			if ($query !== '') {
 				$path .= '?' . $query;
 			}
@@ -305,13 +363,35 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 
 
 	/**
+	 * @deprecated
+	 */
+	public function add($child)
+	{
+		trigger_error(__METHOD__ . '() is deprecated, use addHtml() or addText() instead.', E_USER_DEPRECATED);
+		return $this->addHtml($child);
+	}
+
+
+	/**
 	 * Adds new element's child.
 	 * @param  Html|string Html node or raw HTML string
 	 * @return self
 	 */
-	public function add($child)
+	public function addHtml($child)
 	{
 		return $this->insert(NULL, $child);
+	}
+
+
+	/**
+	 * Appends plain-text string to element content.
+	 * @param  string plain-text string
+	 * @return self
+	 */
+	public function addText($text)
+	{
+		$text = htmlspecialchars($text, ENT_NOQUOTES, 'UTF-8');
+		return $this->insert(NULL, $text);
 	}
 
 
@@ -330,7 +410,7 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 
 	/**
 	 * Inserts child node.
-	 * @param  int|NULL position of NULL for appending
+	 * @param  int|NULL position or NULL for appending
 	 * @param  Html|string Html node or raw HTML string
 	 * @param  bool
 	 * @return self
@@ -343,7 +423,7 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 				$this->children[] = $child;
 
 			} else { // insert or replace
-				array_splice($this->children, (int) $index, $replace ? 1 : 0, array($child));
+				array_splice($this->children, (int) $index, $replace ? 1 : 0, [$child]);
 			}
 
 		} else {
@@ -356,7 +436,7 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 
 	/**
 	 * Inserts (replaces) child node (\ArrayAccess implementation).
-	 * @param  int|NULL position of NULL for appending
+	 * @param  int|NULL position or NULL for appending
 	 * @param  Html|string Html node or raw HTML string
 	 * @return void
 	 */
@@ -412,17 +492,17 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 
 
 	/**
-	 * Removed all children.
+	 * Removes all children.
 	 * @return void
 	 */
 	public function removeChildren()
 	{
-		$this->children = array();
+		$this->children = [];
 	}
 
 
 	/**
-	 * Iterates over a elements.
+	 * Iterates over elements.
 	 * @return \ArrayIterator
 	 */
 	public function getIterator()
@@ -432,7 +512,7 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 
 
 	/**
-	 * Returns all of children.
+	 * Returns all children.
 	 * @return array
 	 */
 	public function getChildren()
@@ -476,7 +556,12 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 
 	public function __toString()
 	{
-		return $this->render();
+		try {
+			return $this->render();
+		} catch (\Throwable $e) {
+		} catch (\Exception $e) {
+		}
+		trigger_error("Exception in " . __METHOD__ . "(): {$e->getMessage()} in {$e->getFile()}:{$e->getLine()}", E_USER_ERROR);
 	}
 
 
@@ -519,6 +604,7 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 		$s = '';
 		$attrs = $this->attrs;
 		if (isset($attrs['data']) && is_array($attrs['data'])) { // deprecated
+			trigger_error('Expanded attribute "data" is deprecated.', E_USER_DEPRECATED);
 			foreach ($attrs['data'] as $key => $value) {
 				$attrs['data-' . $key] = $value;
 			}
@@ -566,8 +652,8 @@ class Html extends Nette\Object implements \ArrayAccess, \Countable, \IteratorAg
 			$q = strpos($value, '"') === FALSE ? '"' : "'";
 			$s .= ' ' . $key . '=' . $q
 				. str_replace(
-					array('&', $q, '<'),
-					array('&amp;', $q === '"' ? '&quot;' : '&#39;', self::$xhtml ? '&lt;' : '<'),
+					['&', $q, '<'],
+					['&amp;', $q === '"' ? '&quot;' : '&#39;', self::$xhtml ? '&lt;' : '<'],
 					$value
 				)
 				. (strpos($value, '`') !== FALSE && strpbrk($value, ' <>"\'') === FALSE ? ' ' : '')

@@ -15,15 +15,7 @@ use Nette;
  */
 class Arrays
 {
-
-	/**
-	 * Static class - cannot be instantiated.
-	 */
-	final public function __construct()
-	{
-		throw new Nette\StaticClassException;
-	}
-
+	use Nette\StaticClass;
 
 	/**
 	 * Returns item from array or $default if item is not set.
@@ -35,7 +27,7 @@ class Arrays
 	 */
 	public static function get(array $arr, $key, $default = NULL)
 	{
-		foreach (is_array($key) ? $key : array($key) as $k) {
+		foreach (is_array($key) ? $key : [$key] as $k) {
 			if (is_array($arr) && array_key_exists($k, $arr)) {
 				$arr = $arr[$k];
 			} else {
@@ -56,9 +48,9 @@ class Arrays
 	 * @return mixed
 	 * @throws Nette\InvalidArgumentException if traversed item is not an array
 	 */
-	public static function & getRef(& $arr, $key)
+	public static function & getRef(array & $arr, $key)
 	{
-		foreach (is_array($key) ? $key : array($key) as $k) {
+		foreach (is_array($key) ? $key : [$key] as $k) {
 			if (is_array($arr) || $arr === NULL) {
 				$arr = & $arr[$k];
 			} else {
@@ -73,7 +65,7 @@ class Arrays
 	 * Recursively appends elements of remaining keys from the second array to the first.
 	 * @return array
 	 */
-	public static function mergeTree($arr1, $arr2)
+	public static function mergeTree(array $arr1, array $arr2)
 	{
 		$res = $arr1 + $arr2;
 		foreach (array_intersect_key($arr1, $arr2) as $k => $v) {
@@ -89,9 +81,9 @@ class Arrays
 	 * Searches the array for a given key and returns the offset if successful.
 	 * @return int|FALSE offset if it is found, FALSE otherwise
 	 */
-	public static function searchKey($arr, $key)
+	public static function searchKey(array $arr, $key)
 	{
-		$foo = array($key => NULL);
+		$foo = [$key => NULL];
 		return array_search(key($foo), array_keys($arr), TRUE);
 	}
 
@@ -102,7 +94,7 @@ class Arrays
 	 */
 	public static function insertBefore(array & $arr, $key, array $inserted)
 	{
-		$offset = self::searchKey($arr, $key);
+		$offset = (int) self::searchKey($arr, $key);
 		$arr = array_slice($arr, 0, $offset, TRUE) + $inserted + array_slice($arr, $offset, count($arr), TRUE);
 	}
 
@@ -140,7 +132,7 @@ class Arrays
 	 */
 	public static function grep(array $arr, $pattern, $flags = 0)
 	{
-		return Strings::pcre('preg_grep', array($pattern, $arr, $flags));
+		return Strings::pcre('preg_grep', [$pattern, $arr, $flags]);
 	}
 
 
@@ -150,7 +142,7 @@ class Arrays
 	 */
 	public static function flatten(array $arr, $preserveKeys = FALSE)
 	{
-		$res = array();
+		$res = [];
 		$cb = $preserveKeys
 			? function ($v, $k) use (& $res) { $res[$k] = $v; }
 			: function ($v) use (& $res) { $res[] = $v; };
@@ -177,13 +169,13 @@ class Arrays
 	{
 		$parts = is_array($path)
 			? $path
-			: preg_split('#(\[\]|->|=|\|)#', $path, NULL, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+			: preg_split('#(\[\]|->|=|\|)#', $path, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
 
-		if (!$parts || $parts[0] === '=' || $parts[0] === '|' || $parts === array('->')) {
+		if (!$parts || $parts[0] === '=' || $parts[0] === '|' || $parts === ['->']) {
 			throw new Nette\InvalidArgumentException("Invalid path '$path'.");
 		}
 
-		$res = $parts[0] === '->' ? new \stdClass : array();
+		$res = $parts[0] === '->' ? new \stdClass : [];
 
 		foreach ($arr as $rowOrig) {
 			$row = (array) $rowOrig;
@@ -227,7 +219,7 @@ class Arrays
 	 */
 	public static function normalize(array $arr, $filling = NULL)
 	{
-		$res = array();
+		$res = [];
 		foreach ($arr as $k => $v) {
 			$res[is_int($k) ? $v : $k] = is_int($k) ? $filling : $v;
 		}

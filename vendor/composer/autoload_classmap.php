@@ -23,6 +23,8 @@ return array(
     'Nette\\NotSupportedException' => $vendorDir . '/nette/utils/src/Utils/exceptions.php',
     'Nette\\Object' => $vendorDir . '/nette/utils/src/Utils/Object.php',
     'Nette\\OutOfRangeException' => $vendorDir . '/nette/utils/src/Utils/exceptions.php',
+    'Nette\\SmartObject' => $vendorDir . '/nette/utils/src/Utils/SmartObject.php',
+    'Nette\\StaticClass' => $vendorDir . '/nette/utils/src/Utils/StaticClass.php',
     'Nette\\StaticClassException' => $vendorDir . '/nette/utils/src/Utils/exceptions.php',
     'Nette\\UnexpectedValueException' => $vendorDir . '/nette/utils/src/Utils/exceptions.php',
     'Nette\\Utils\\ArrayHash' => $vendorDir . '/nette/utils/src/Utils/ArrayHash.php',
