@@ -54,6 +54,7 @@ $sources = $db[$group];
 <meta property="og:image" content="http://mangoweb.cz/assets/images/og.jpg">
 <title>Denní meníčka okolo</title>
 <link rel="stylesheet" href="assets/styles/index.css">
+<script src="https://npmcdn.com/masonry-layout@4.1/dist/masonry.pkgd.min.js"></script>
 </head>
 <body>
 <div class="mnamgo">
@@ -65,7 +66,7 @@ foreach($sources as $name => $url):
 	$content = fromZomato($url, isset($_GET['force']));
 ?>
 	<div class="restaurant<?php echo $first ? ' is-open' : ''; echo empty($content) ? ' is-empty' : '';?>">
-		<h2 class="restaurant-name"><?php echo htmlspecialchars($name) ?></h2>
+		<h2 class="restaurant-name"><a href="<?php echo htmlspecialchars($url) ?>"><?php echo htmlspecialchars($name) ?></a></h2>
 		<div class="restaurant-menu">
 <?php
 if(empty($content)) {
@@ -99,6 +100,13 @@ $('.restaurant-name').on('click', function(e){
 
   ga('create', 'UA-73886929-1', 'auto');
   ga('send', 'pageview');
+
+if(window.innerWidth > 800) {
+	var msnry = new Masonry( '.restaurants', {
+		itemSelector: '.restaurant',
+		columnWidth: 380
+	});
+}
 </script>
 </body>
 </html>
