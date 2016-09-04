@@ -54,7 +54,7 @@ $sources = $db[$group];
 <meta property="og:image" content="http://mangoweb.cz/assets/images/og.jpg">
 <title>Denní meníčka okolo</title>
 <link rel="stylesheet" href="assets/styles/index.css">
-<script src="https://npmcdn.com/masonry-layout@4.1/dist/masonry.pkgd.min.js"></script>
+<script src="https://unpkg.com/masonry-layout@4.1/dist/masonry.pkgd.min.js"></script>
 </head>
 <body>
 <div class="mnamgo">
