@@ -4,6 +4,35 @@ header('Content-Type:text/html;charset=utf-8');
 require_once __DIR__ . '/vendor/autoload.php';
 Tracy\Debugger::enable(Tracy\Debugger::DETECT, __DIR__ . '/log');
 
+function download_menu($url) {
+
+	$ch = curl_init();
+
+	curl_setopt($ch, CURLOPT_URL, $url);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+	
+	
+	$headers = array();
+	$headers[] = "Pragma: no-cache";
+	$headers[] = "Dnt: 1";
+	$headers[] = "Accept-Encoding: deflate, sdch, br";
+	$headers[] = "Accept-Language: en,cs;q=0.8,en-GB;q=0.6";
+	$headers[] = "Upgrade-Insecure-Requests: 1";
+	$headers[] = "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.98 Safari/537.36";
+	$headers[] = "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8";
+	$headers[] = "Cache-Control: no-cache";
+	$headers[] = "Authority: www.zomato.com";
+	curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+	$result = curl_exec($ch);
+	if (curl_errno($ch)) {
+	    echo 'Error:' . curl_error($ch);
+	}
+	curl_close ($ch);
+	return $result;
+}
+
 function utf8Url($url) {
 	if(strpos($url, '%') !== FALSE) return $url;
 	list($protocol, $rest) = explode('://', $url);
@@ -20,9 +49,10 @@ function fromZomato($url, $force = FALSE) {
 	if(!$force && file_exists($cachePath)) {
 		return file_get_contents($cachePath);
 	}
+	$html = download_menu($url);
 
 	$document = new DOMDocument();
-	@$document->loadHTMLFile($url);
+	$document->loadHTML($html);
 	$xpath = new DOMXPath($document);
 	$nodes = $xpath->query('//div[contains(concat(" ", normalize-space(@class), " "), " tmi-group ")]');
 	$node = $nodes->item(0);
@@ -32,7 +62,6 @@ function fromZomato($url, $force = FALSE) {
 	if($nodes->length && $node->ownerDocument) {
 		$content = $node->ownerDocument->saveHTML($node);
 	}
-
 	file_put_contents($cachePath, $content);
 
 	return $content;
