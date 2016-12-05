@@ -23,6 +23,7 @@ function download_menu($url) {
 	$headers[] = "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8";
 	$headers[] = "Cache-Control: no-cache";
 	$headers[] = "Authority: www.zomato.com";
+	$headers[] = "Cookie: ak_bmsc=882745FCADD9468899DC6D37AFA9546B6867493F9C76000024364558C33F4F38~plQAqfVwtSDb+GEeBa7Bl6owISjtG1VOE4cZQDrVYI+sgz0aA8kJ9ox/r1twnwd9B1voFQPB/goQrEbj5mlX8Wa9LBZkoSf3L+jkpFBes6dURf9b2xBsEyz3SWeF5hD2tibpzQIUSi0T28V9048VLpA313kqg1fljLz6AlAL28sLy+VcDLqCZDknm92jbIa1ohTXiuMKIhL2KfqEp6P8zj+A==";
 	curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
 	$result = curl_exec($ch);
