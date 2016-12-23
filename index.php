@@ -4,13 +4,14 @@ define('API_URL', 'https://developers.zomato.com/api/v2.1');
 define('API_KEY', '938c81de2f543a03f1d05f2d6ba54f39');
 
 use Nette\Utils\Json;
+use Nette\Caching\Cache;
+use Nette\Caching\Storages\FileStorage;
 
 header('Content-Type:text/html;charset=utf-8');
 require_once __DIR__ . '/vendor/autoload.php';
 Tracy\Debugger::enable(Tracy\Debugger::DETECT, __DIR__ . '/log');
 
 function download_menu($id) {
-
 	$ch = curl_init();
 
 	curl_setopt($ch, CURLOPT_URL, API_URL . "/dailymenu?res_id=$id");
@@ -53,9 +54,11 @@ $sources = $db[$group];
 <main class="restaurants">
 <?php
 
+$cache = new Cache(new FileStorage(__DIR__ . '/cache'));
+
 $first = TRUE;
 foreach($sources as $name => $id):
-	$data = download_menu($id);
+	$data = $cache->call('download_menu', $id, date('j_n_Y'));
 ?>
 	<div class="restaurant<?php echo $first ? ' is-open' : ''; echo empty($data) ? ' is-empty' : '';?>">
 		<h2 class="restaurant-name"><a href="#"><?php echo htmlspecialchars($name) ?></a></h2>
