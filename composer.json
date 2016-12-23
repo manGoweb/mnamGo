@@ -2,7 +2,8 @@
     "name": "mangoweb/mnamgo",
     "require": {
         "nette/utils": "^2.3",
-        "tracy/tracy": "^2.4"
+        "tracy/tracy": "^2.4",
+        "nette/caching": "^2.5"
     },
     "license": "MIT",
     "authors": [
