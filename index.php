@@ -61,7 +61,7 @@ foreach($sources as $name => $id):
 	$data = $cache->call('download_menu', $id, date('j_n_Y'));
 ?>
 	<div class="restaurant<?php echo $first ? ' is-open' : ''; echo empty($data) ? ' is-empty' : '';?>">
-		<h2 class="restaurant-name"><a href="#"><?php echo htmlspecialchars($name) ?></a></h2>
+		<h2 class="restaurant-name"><a href="http://zoma.to/r/<?php echo $id ?>"><?php echo htmlspecialchars($name) ?></a></h2>
 		<div class="restaurant-menu">
 			<div class="tmi-group mtop">
 				<div class="tmi-group-name bold fontsize3 pb5 bb"><?php echo date('j. n. Y', strtotime($data['start_date'])) ?></div>
