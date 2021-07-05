@@ -44,7 +44,7 @@ $sources = $db[$group];
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta property="og:title" content="Denní meníčka okolo">
 <meta property="og:description" content="Pojďte s náma, nebo bez nás. We don't care.">
-<meta property="og:image" content="http://mangoweb.cz/assets/images/og.jpg">
+<meta property="og:image" content="https://www.mangoweb.cz/images/sharing/mangoweb.og.jpg">
 <title>Denní meníčka okolo</title>
 <link rel="stylesheet" href="assets/styles/index.css">
 <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
